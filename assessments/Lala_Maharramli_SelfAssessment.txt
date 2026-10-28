@@ -1,0 +1,20 @@
+Lala Maharramli
+
+I wrote from_nvd() in collect.py. It calls the NVD JSON API with requests,
+checks the status code, and reads the first English description, the metrics
+block, the CWE IDs from weaknesses, the affected products by walking
+configurations, then nodes, then cpeMatch, and each reference URL with its
+tags.
+
+What I learned: an empty result is not an error. When a CVE does not exist the
+API still returns HTTP 200 with an empty vulnerabilities list, so I test for
+that and set a clean "not found" message instead of letting items[0] raise an
+index error.
+
+How we collaborated: I was given from_nvd() because it has the deepest JSON to
+read. I paired with Aslan on the configurations loop because I could not work
+out the nesting from the API docs on my own. He reviewed my code and pointed
+out I was looping without a default, so it would crash on a CVE that has no
+configurations; I changed every lookup to cve.get(key, []). I reviewed Fuad's
+parse_cvss(), which reads the metrics block I produce, and we checked the key
+names matched.

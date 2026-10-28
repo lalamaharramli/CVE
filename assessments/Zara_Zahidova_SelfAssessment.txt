@@ -1,0 +1,19 @@
+Zara Zahidova
+
+I wrote from_kev() in collect.py and classify_risk() with priority_meaning() in
+analyse.py. from_kev() reads the cached CISA KEV feed, loops over
+vulnerabilities, and when it finds the CVE by cveID it records requiredAction
+and dueDate. classify_risk() turns the score, whether an exploit exists, and
+KEV status into a P1 to P4 code with a plain-English reason.
+
+What I learned: why the order of the if checks matters. A published exploit can
+make a score-7 vulnerability more urgent than a score-9 one nobody can attack
+yet, so "in KEV" and "exploit available and score >= 7" are both tested before
+the plain "score >= 9" branch.
+
+How we collaborated: I got KEV because it is one download and one loop, and
+classify_risk() because every branch is a single rule. I wrote the priority
+table out on paper with Aslan first so we agreed the order before I coded it.
+He reviewed my first version and found it crashed when the score was None, so I
+added that as the first case before any comparison. I reviewed Khadija's
+render() and caught wording in the priority text that did not match the table.

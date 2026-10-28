@@ -1,0 +1,20 @@
+Fuad Mammadli
+
+I wrote from_exploitdb() in collect.py and parse_cvss() with
+severity_from_score() in analyse.py. from_exploitdb() calls cached_download()
+to fetch the Exploit-DB CSV catalogue once, then uses csv.DictReader to walk
+every row and keep the ones whose codes column contains the CVE ID as a
+case-insensitive substring.
+
+What I learned: the CVSS severity label is not always in the same place. In v3
+and v4 it sits inside cvssData as baseSeverity, but in v2 it is one level up on
+the metric entry, so I check both, and if neither is there I derive the word
+from the score in severity_from_score().
+
+How we collaborated: Aslan gave me the CSV collector and the CVSS parser
+because both need a fallback path. Before writing the parser I downloaded the
+CSV and printed the header row so I used the real column names instead of
+guessing. My first version showed the same exploit twice for CVE-2017-0144; we
+traced it to repeated rows in the catalogue and I added a seen_ids list to skip
+an id already recorded. I also reviewed Zara's classify_risk() and checked the
+score my parser returns matches what she reads.

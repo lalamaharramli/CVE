@@ -1,0 +1,20 @@
+Aslan Mammadzada
+
+I wrote main.py end to end: validate(), prompt_for_cve() with its three-try
+limit, gather(), open_references() and main(). In analyse.py I built the
+reference pipeline: score_references(), reference_score(), link_is_alive() with
+its HEAD-then-GET fallback, rank_references() and find_remediation(). In
+collect.py I wrote cached_download() and from_vulmon().
+
+What I learned: NVD sometimes lists the same reference URL twice, so
+score_references() now keeps a list of URLs it has already seen and skips
+repeats, otherwise the tool opened the same advisory in two browser tabs.
+
+How we collaborated: I split the work by how hard each part is to explain
+aloud, gave each teammate one collector plus one analysis function, and
+reviewed their changes. The others pushed back on my first README: I had
+written out internal notes about rate limits and a source we could not scrape
+in a way that read like an excuse, and Zara and Lala said that should not go
+in a submission. I cut it and rewrote the sources section as a plain table.
+Fuad found that cached_download() crashed when the cache folder did not exist
+yet, so I added the os.makedirs guard.

@@ -1,0 +1,19 @@
+Khadija Huseynzada
+
+I wrote all of report.py: render() builds the plain-text report,
+render_markdown() builds the same report in Markdown with a table for the
+severity block, and save() writes both files into reports/. I also wrote the
+helpers value_or(), yes_no(), format_score(), heading() and wrap().
+
+What I learned: how str.format() alignment specifiers work. Instead of counting
+spaces I now write "{:<16}{}".format(label, value) so the label columns line
+up, and "{:^78}".format(title) to centre the header. I did not know the number
+after the colon was a field width before this project.
+
+How we collaborated: I was given report.py because it repeats one format
+pattern section after section, which made it a good place for me to start. At
+the beginning I asked Aslan a lot about how the shared data dictionary was
+shaped so I knew which keys to read. He reviewed my first render() and pointed
+out it printed the word "None" when a CVSS field was missing, so I routed every
+field through value_or(), which prints "not available" instead. I reviewed
+Lala's from_nvd() and found a section heading with a spelling mistake.
